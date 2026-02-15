@@ -1,6 +1,6 @@
 
 
-
+JanaG
 # public-civic-info-system
 
 A serverless, citation-grounded civic information system built around a **single authoritative Core Lambda** with **thin transport adapters** (HTTP, SMS, Voice). Indexing runs as a scheduled Fargate job; inference is fully Lambda-based.
