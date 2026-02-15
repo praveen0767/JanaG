@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Civic Assistant</title>
+<style>
+:root{--bg:#fbfbfd;--card:#fff;--accent:#0b6cff;--muted:#666;--text:#111}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;margin:14px;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+.container{max-width:820px;margin:0 auto}
+.header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.brand{font-weight:700;font-size:20px}
+.controls{display:flex;gap:8px;align-items:center;margin-left:auto}
+.select,textarea,button,input{font-size:16px}
+.select{padding:8px;border-radius:8px;border:1px solid #e3e6ef;background:white}
+#query{width:100%;min-height:96px;padding:12px;border-radius:8px;border:1px solid #e6e6ef;box-sizing:border-box;resize:vertical}
+.btn{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer}
+.btn.secondary{background:#eef5ff;color:var(--accent);border:1px solid #d7e7ff}
+.row{display:flex;gap:8px;align-items:center}
+.card{background:var(--card);border-radius:10px;padding:12px;border:1px solid #ececf2}
+#status{margin-top:8px;color:var(--muted)}
+#answers{margin-top:12px}
+.answer-line{padding:10px;border-bottom:1px dashed #f1f1f4}
+.answer-line:last-child{border-bottom:none}
+.citation-link{color:var(--accent);text-decoration:none;font-weight:600;margin-left:8px;display:inline-block;padding:4px 6px;border-radius:6px;border:1px solid transparent}
+.citation-link:hover{background:#eef5ff;border-color:#d7e7ff}
+.sources{margin-top:10px;font-size:14px;color:var(--muted)}
+.history{margin-top:12px;font-size:13px;color:var(--muted);max-height:220px;overflow:auto}
+.voice-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border:1px solid #e6e6ef;background:#fff;cursor:pointer}
+.voice-dot{width:10px;height:10px;border-radius:50%;background:#cfcfcf}
+.voice-dot.recording{background:#e53935;box-shadow:0 0 6px rgba(229,57,53,0.6)}
+.small{font-size:13px;color:var(--muted)}
+kbd{background:#f2f4fb;border-radius:4px;padding:2px 6px;font-size:12px;border:1px solid #e6e6ef}
+.footer{margin-top:18px;font-size:13px;color:var(--muted);text-align:center}
+@media (max-width:520px){.header{flex-direction:column;align-items:flex-start}.controls{margin-left:0;flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="brand">Civic Assistant</div>
+    <div class="controls">
+      <label for="lang" class="small">Language</label>
+      <select id="lang" class="select" aria-label="language selector">
+        <option value="en">English</option>
+        <option value="ta">தமிழ்</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="te">తెలుగు</option>
+        <option value="ml">മലയാളം</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="mr">मराठी</option>
+        <option value="gu">ગુજરાતી</option>
+      </select>
+      <button id="clearBtn" class="btn secondary">Clear</button>
+    </div>
+  </div>
+
+  <div class="card" role="region" aria-label="interaction">
+    <div class="row" style="margin-bottom:10px;">
+      <textarea id="query" aria-label="Question input" placeholder="Ask your question..."></textarea>
+    </div>
+    <div class="row" style="justify-content:space-between;align-items:center">
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="askBtn" class="btn">Ask</button>
+        <button id="voiceBtn" class="voice-btn" aria-pressed="false" title="Use voice">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z" stroke="#0b6cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 11v1a7 7 0 0 1-14 0v-1" stroke="#0b6cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 19v3" stroke="#0b6cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="voiceDot" class="voice-dot" aria-hidden="true"></span>
+        </button>
+        <div id="shortHint" class="small">Tip: press <kbd>Ctrl+Enter</kbd> to submit</div>
+      </div>
+      <div id="status" class="small" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div id="answers" class="card" tabindex="-1" aria-live="polite"></div>
+
+  <!-- Sources: visible links are replaced with bracketed numbers like [1], [2], ...
+       Anchors appended by app.js will be transformed by the MutationObserver below.
+       Anchors keep their href so clicking [1] opens the original URL. -->
+  <div id="sources" class="sources" aria-label="sources" role="list"></div>
+
+  <div id="history" class="history card"></div>
+
+  <div class="footer">Designed for low-bandwidth and low-literacy users. Simple, short answers with links to official sources.</div>
+</div>
+
+<script>
+/*
+  MutationObserver that rewrites any anchor inside #sources to show only a bracketed number [1], [2], ...
+  The anchor keeps its href, target, rel, and becomes accessible via title/aria-label.
+  This avoids changing app.js; it simply changes visible labels.
+*/
+(function(){
+  const container = document.getElementById('sources');
+  if (!container) return;
+  // Update all existing anchors
+  function updateAnchors(){
+    const anchors = Array.from(container.querySelectorAll('a'));
+    anchors.forEach((a, idx) => {
+      const n = idx + 1;
+      // preserve href for click; set visible text to [n]
+      a.textContent = `[${n}]`;
+      a.setAttribute('title', a.getAttribute('href') || '');
+      a.setAttribute('aria-label', `Open source ${n}: ${a.getAttribute('href') || ''}`);
+      a.classList.add('citation-link');
+      a.setAttribute('role', 'listitem');
+      // store numeric index for future updates
+      a.dataset.citationIndex = String(n);
+    });
+  }
+
+  // Observe child list changes (anchors appended by app.js)
+  const mo = new MutationObserver((mutations) => {
+    let needs = false;
+    for (const m of mutations) {
+      if (m.type === 'childList' && (m.addedNodes.length || m.removedNodes.length)) {
+        needs = true;
+        break;
+      }
+    }
+    if (needs) {
+      // small microtask delay to allow app.js to finish DOM composition
+      requestAnimationFrame(updateAnchors);
+    }
+  });
+
+  mo.observe(container, { childList: true, subtree: false });
+
+  // Also update on window load in case anchors already present
+  window.addEventListener('load', () => {
+    setTimeout(updateAnchors, 0);
+  });
+
+  // Expose a manual update function if you need to call it from console
+  window.__updateSourceBrackets = updateAnchors;
+})();
+</script>
+
+<script src="app.js"></script>
+</body>
+</html>

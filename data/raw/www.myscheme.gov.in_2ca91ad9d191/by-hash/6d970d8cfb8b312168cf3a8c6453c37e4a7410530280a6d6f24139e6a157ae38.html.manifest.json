@@ -1,0 +1,10 @@
+{
+  "file_hash": "6d970d8cfb8b312168cf3a8c6453c37e4a7410530280a6d6f24139e6a157ae38",
+  "mime_ext": "html",
+  "parser_version": "router-v1",
+  "pipeline_run_id": "1770434698",
+  "s3_key": "data/raw/www.myscheme.gov.in_2ca91ad9d191/by-hash/6d970d8cfb8b312168cf3a8c6453c37e4a7410530280a6d6f24139e6a157ae38.html",
+  "s3_url": "s3://civic-data-raw-prod/data/raw/www.myscheme.gov.in_2ca91ad9d191/by-hash/6d970d8cfb8b312168cf3a8c6453c37e4a7410530280a6d6f24139e6a157ae38.html",
+  "saved_chunks": 0,
+  "timestamp": "2026-02-07T03:25:02.940Z"
+}

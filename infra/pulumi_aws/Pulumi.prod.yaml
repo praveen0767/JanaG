@@ -1,0 +1,6 @@
+encryptionsalt: v1:kgmROat4WsQ=:v1:nBgw63KDW35ehd2A:ZSjcni8vu/y3jrfLSnUFub4yah5xPQ==
+config:
+  pulumi-infra:awsRegion: ap-south-1
+  pulumi-infra:image_uri: athithya5354/civic-indexing:latest
+  pulumi-infra:projectPrefix: civic-index
+  pulumi-infra:ecrRepoName: civic-indexing

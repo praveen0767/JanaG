@@ -1,0 +1,10 @@
+{
+  "file_hash": "d0087d80a5b37d8dfcac6d93d3e8d2f34184ef09f2967a73ae3604735a454f79",
+  "mime_ext": "php",
+  "parser_version": "router-v1",
+  "pipeline_run_id": "1770434698",
+  "s3_key": "data/raw/schemes.php",
+  "s3_url": "s3://civic-data-raw-prod/data/raw/schemes.php",
+  "saved_chunks": 0,
+  "timestamp": "2026-02-07T03:25:01.468Z"
+}

@@ -1,0 +1,11 @@
+{
+  "file_hash": "d9d3c60bdeb985fdd87bf4a23db07ebab1a3a783837e8f3c711c0dee22d37ffb",
+  "mime_ext": "html",
+  "original_url": "https://www.india.gov.in/my-government/schemes",
+  "remote_etag": null,
+  "remote_lastmod": null,
+  "scraper_version": "web_scraper@1.0.0",
+  "size_bytes": 401,
+  "storage_url": "s3://civic-data-raw-prod/data/raw/www.india.gov.in_86e79d6cc8ef/by-hash/d9d3c60bdeb985fdd87bf4a23db07ebab1a3a783837e8f3c711c0dee22d37ffb.html",
+  "timestamp": "2026-02-06T12:51:07.972235Z"
+}

@@ -1,0 +1,11 @@
+{
+  "file_hash": "6d970d8cfb8b312168cf3a8c6453c37e4a7410530280a6d6f24139e6a157ae38",
+  "mime_ext": "html",
+  "original_url": "https://www.myscheme.gov.in",
+  "remote_etag": null,
+  "remote_lastmod": null,
+  "scraper_version": "web_scraper@1.0.0",
+  "size_bytes": 118557,
+  "storage_url": "s3://civic-data-raw-prod/data/raw/www.myscheme.gov.in_2ca91ad9d191/by-hash/6d970d8cfb8b312168cf3a8c6453c37e4a7410530280a6d6f24139e6a157ae38.html",
+  "timestamp": "2026-02-06T12:51:08.095902Z"
+}

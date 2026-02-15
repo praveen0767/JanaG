@@ -1,0 +1,10 @@
+{
+  "file_hash": "a0b668ab7bf39376fd1444c9e9e43d77604c8c2213873e3bd4231a723c060b6d",
+  "mime_ext": "html",
+  "parser_version": "router-v1",
+  "pipeline_run_id": "1770434698",
+  "s3_key": "data/raw/csc.gov.in_61b445c126ed/by-hash/a0b668ab7bf39376fd1444c9e9e43d77604c8c2213873e3bd4231a723c060b6d.html",
+  "s3_url": "s3://civic-data-raw-prod/data/raw/csc.gov.in_61b445c126ed/by-hash/a0b668ab7bf39376fd1444c9e9e43d77604c8c2213873e3bd4231a723c060b6d.html",
+  "saved_chunks": 0,
+  "timestamp": "2026-02-07T03:25:00.257Z"
+}

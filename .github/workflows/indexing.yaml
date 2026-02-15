@@ -1,0 +1,57 @@
+name: indexing-image
+
+on:
+  push:
+    paths:
+      - indexing_pipeline/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build & push indexing image
+        env:
+          IMAGE_NAME: civic-indexing
+          IMAGE_TAG: amd64-arm64-v11
+
+          # ---- build config ----
+          PLATFORMS: linux/amd64,linux/arm64
+          LOCAL_PLATFORM: linux/amd64
+          BUILD_CONTEXT: indexing_pipeline
+          DOCKERFILE_PATH: indexing_pipeline/Dockerfile
+
+          # ---- feature flags ----
+          PUSH: "true"
+          ECR_REGISTRY: "false"
+
+          # ---- registry (Docker Hub) ----
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+          # ---- registry (ECR) ----
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          ECR_REPO: ${{ vars.ECR_REPO }}
+
+          # ---- runtime args ----
+          OCR_LANGUAGES: eng,tam,hin
+          INDIC_OCR_SIZE: best
+
+          # ---- safety ----
+          SMOKE_TEST: "false"
+        run: |
+          chmod +x indexing_pipeline/build_and_push_image.sh
+          indexing_pipeline/build_and_push_image.sh

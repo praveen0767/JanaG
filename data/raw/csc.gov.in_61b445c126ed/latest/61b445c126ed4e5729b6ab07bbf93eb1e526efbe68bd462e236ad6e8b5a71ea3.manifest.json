@@ -1,0 +1,11 @@
+{
+  "file_hash": "a0b668ab7bf39376fd1444c9e9e43d77604c8c2213873e3bd4231a723c060b6d",
+  "mime_ext": "html",
+  "original_url": "https://csc.gov.in",
+  "remote_etag": null,
+  "remote_lastmod": null,
+  "scraper_version": "web_scraper@1.0.0",
+  "size_bytes": 34915,
+  "storage_url": "s3://civic-data-raw-prod/data/raw/csc.gov.in_61b445c126ed/by-hash/a0b668ab7bf39376fd1444c9e9e43d77604c8c2213873e3bd4231a723c060b6d.html",
+  "timestamp": "2026-02-06T12:51:08.391216Z"
+}
